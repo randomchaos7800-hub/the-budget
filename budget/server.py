@@ -87,9 +87,6 @@ class Handler(SimpleHTTPRequestHandler):
                 return self._json({"ok": True})
             if path == "/api/settings":
                 return self._json(self.wallet.update_settings(body))
-            if path == "/api/demo":
-                self.wallet.load_demo()
-                return self._json(self.wallet.dashboard())
             if path == "/api/nightly":
                 return self._json(self.wallet.nightly())
             if path.startswith("/api/alerts/") and path.endswith("/ack"):

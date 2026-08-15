@@ -27,11 +27,16 @@ python3 -m budget serve
 # http://127.0.0.1:8787
 ```
 
-Load the demo household from the Import tab, or paste a bank CSV.
+Load a bank CSV from the Import tab. The production database is intentionally blank until you import verified live data.
+
+For development only, the CLI still supports loading the demo household:
+
+```bash
+python3 -m budget demo
+```
 
 ```bash
 python3 -m unittest discover -s tests -v
-python3 -m budget demo
 python3 -m budget nightly
 ```
 

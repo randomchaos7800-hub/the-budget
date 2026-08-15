@@ -326,7 +326,6 @@ $("#settings-form").onsubmit = async (e) => {
 
 $("#clear-plan").onclick = async () => { await api("/api/plan/clear", { method: "POST", body: "{}" }); await refresh(); };
 $("#reset-plan").onclick = async () => { await api("/api/plan/reset", { method: "POST", body: "{}" }); await refresh(); };
-$("#demo-btn").onclick = async () => { await api("/api/demo", { method: "POST", body: "{}" }); await refresh(); };
 $("#nightly-btn").onclick = async () => {
   const report = await api("/api/nightly", { method: "POST", body: "{}" });
   $("#nightly-out").textContent = JSON.stringify(report, null, 2);
