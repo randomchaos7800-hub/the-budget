@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What If Wallet</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <div class="brand">What If Wallet</div>
+      <div class="sub">Constraint engine. Not a budget app.</div>
+    </div>
+    <nav>
+      <button data-tab="today" class="on">Today</button>
+      <button data-tab="model">Model</button>
+      <button data-tab="import">Import</button>
+      <button data-tab="scenarios">What If</button>
+      <button data-tab="history">History</button>
+      <button data-tab="settings">Settings</button>
+    </nav>
+  </header>
+
+  <section id="alerts" class="alerts" hidden></section>
+
+  <main id="today" class="panel on">
+    <section class="hero">
+      <div class="kicker">Spendable today</div>
+      <div id="spendable" class="spend">—</div>
+      <p id="why" class="why"></p>
+      <div class="meta" id="hero-meta"></div>
+    </section>
+    <section class="row">
+      <article>
+        <h2>Projection</h2>
+        <div class="ranges" id="ranges"></div>
+        <canvas id="chart" width="900" height="280"></canvas>
+        <div id="stats" class="stats"></div>
+      </article>
+      <article>
+        <h2>Upcoming</h2>
+        <div id="upcoming"></div>
+      </article>
+    </section>
+    <section class="row">
+      <article>
+        <h2>Goals</h2>
+        <form id="goal-form" class="inline">
+          <input name="name" placeholder="Name" required>
+          <input name="target_amount" type="number" step="0.01" placeholder="Target $" required>
+          <input name="target_date" type="date" required>
+          <button type="submit">Add</button>
+        </form>
+        <div id="goals"></div>
+      </article>
+      <article>
+        <h2>Plan overrides</h2>
+        <p class="hint">Skip once or stop a bill. Past overrides do not leak into the projection.</p>
+        <div id="plan"></div>
+        <div class="inline">
+          <button id="clear-plan" class="ghost">Clear plan</button>
+          <button id="reset-plan" class="ghost danger">Full reset</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <main id="model" class="panel">
+    <section class="row">
+      <article>
+        <h2>Baseline templates</h2>
+        <p class="hint">This is the truth layer. Recurring income and bills. Not transactions.</p>
+        <div id="templates"></div>
+      </article>
+      <article>
+        <h2>Add / edit</h2>
+        <form id="template-form">
+          <input type="hidden" name="id">
+          <label>Name <input name="name" required></label>
+          <label>Amount <input name="amount" type="number" step="0.01" required></label>
+          <label>Frequency
+            <select name="frequency">
+              <option value="oneTime">One-Time</option>
+              <option value="weekly">Weekly</option>
+              <option value="biWeekly">Bi-Weekly</option>
+              <option value="semiMonthly">1st &amp; 15th</option>
+              <option value="monthly" selected>Monthly</option>
+              <option value="lastDayOfMonth">Last Day of Month</option>
+              <option value="yearly">Yearly</option>
+            </select>
+          </label>
+          <label>Anchor date <input name="anchor_date" type="date" required></label>
+          <label>Category
+            <select name="category">
+              <option>Income</option>
+              <option>Housing</option>
+              <option>Transportation</option>
+              <option>Utilities</option>
+              <option>Food</option>
+              <option>Healthcare</option>
+              <option>Insurance</option>
+              <option>Debt</option>
+              <option>Subscriptions</option>
+              <option selected>Other</option>
+            </select>
+          </label>
+          <label>Min (optional) <input name="min_amount" type="number" step="0.01"></label>
+          <label>Max (optional) <input name="max_amount" type="number" step="0.01"></label>
+          <button type="submit">Save template</button>
+        </form>
+      </article>
+    </section>
+  </main>
+
+  <main id="import" class="panel">
+    <section class="row">
+      <article>
+        <h2>Import CSV</h2>
+        <p class="hint">Bank export (date, description, amount) or template file (name, amount, frequency). Recurring lines become proposals — nothing is added to the model until you confirm.</p>
+        <textarea id="csv-text" rows="10" placeholder="Date,Description,Amount&#10;2026-08-01,Rent,-1600&#10;2026-08-07,Paycheck,2200"></textarea>
+        <div class="inline">
+          <input id="csv-file" type="file" accept=".csv,text/csv">
+          <button id="import-btn">Import</button>
+          <button id="demo-btn" class="ghost">Load demo household</button>
+        </div>
+        <p id="import-result" class="hint"></p>
+      </article>
+      <article>
+        <h2>Proposed recurrences</h2>
+        <div id="proposals"></div>
+      </article>
+    </section>
+  </main>
+
+  <main id="scenarios" class="panel">
+    <section>
+      <h2>Explore a scenario</h2>
+      <p class="hint">Overlay only. Does not change your baseline unless you add the pieces yourself. Job Loss actually stops income.</p>
+      <div id="scenario-list" class="cards"></div>
+    </section>
+  </main>
+
+  <main id="history" class="panel">
+    <section class="row">
+      <article>
+        <h2>Ledger</h2>
+        <form id="ledger-form" class="inline">
+          <input name="date" type="date" required>
+          <input name="amount" type="number" step="0.01" placeholder="Amount" required>
+          <input name="note" placeholder="Note">
+          <button type="submit">Add actual</button>
+        </form>
+        <div id="ledger"></div>
+      </article>
+      <article>
+        <h2>Balance anchor</h2>
+        <p class="hint">Current balance is derived: last known real amount plus ledger since that date. Nightly crystallization writes past scheduled bills into the ledger so the number does not go stale.</p>
+        <form id="balance-form" class="inline">
+          <input name="amount" type="number" step="0.01" placeholder="Current balance" required>
+          <button type="submit">Update balance</button>
+        </form>
+        <p id="anchor-line" class="hint"></p>
+        <button id="nightly-btn" class="ghost">Run nightly now</button>
+        <pre id="nightly-out"></pre>
+      </article>
+    </section>
+  </main>
+
+  <main id="settings" class="panel">
+    <section>
+      <h2>Assumptions</h2>
+      <form id="settings-form">
+        <label>Timezone <input name="timezone"></label>
+        <label>Same-day order
+          <select name="transaction_ordering">
+            <option value="incomeFirst">Income first</option>
+            <option value="expenseFirst">Expense first</option>
+            <option value="alphabetical">Alphabetical</option>
+          </select>
+        </label>
+        <label>Rounding
+          <select name="rounding_mode">
+            <option value="nearest">Nearest cent</option>
+            <option value="down">Always down</option>
+            <option value="up">Always up</option>
+          </select>
+        </label>
+        <label>Projection days <input name="projection_days" type="number"></label>
+        <label>Safety floor $ <input name="safety_floor" type="number" step="0.01"></label>
+        <label>Warning below $ <input name="warning_threshold" type="number" step="0.01"></label>
+        <button type="submit">Save assumptions</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
