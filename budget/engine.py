@@ -204,7 +204,7 @@ class TemplateSnapshot:
 
     @property
     def is_income(self) -> bool:
-        return self.effective_amount >= 0
+        return self.effective_amount > 0
 
 
 @dataclass(frozen=True)
