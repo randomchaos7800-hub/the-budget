@@ -180,6 +180,7 @@ class TemplateSnapshot:
     min_amount: float | None = None
     max_amount: float | None = None
     category: CashFlowCategory = CashFlowCategory.OTHER
+    is_estimate: bool = False
 
     @property
     def effective_amount(self) -> float:

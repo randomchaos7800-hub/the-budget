@@ -162,7 +162,7 @@ function renderTemplates() {
       <td>${escapeHtml(t.name)}</td>
       <td>${t.frequency_label}</td>
       <td>${t.category}</td>
-      <td class="${amtClass(t.effective_amount)}">${money(t.effective_amount)}</td>
+      <td class="${amtClass(t.effective_amount)}">${money(t.effective_amount)}${t.is_estimate ? " <span class=\"tiny\">amount needed</span>" : ""}</td>
       <td>${t.anchor_date}</td>
       <td>
         <button data-edit="${t.id}">Edit</button>

@@ -402,6 +402,7 @@ def _template(t: TemplateSnapshot) -> dict[str, Any]:
         "max_amount": t.max_amount,
         "is_income": t.is_income,
         "is_variable": t.is_variable,
+        "is_estimate": t.is_estimate,
     }
 
 

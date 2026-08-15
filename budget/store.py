@@ -534,6 +534,7 @@ class Store:
             min_amount=None if row["min_amount"] is None else float(row["min_amount"]),
             max_amount=None if row["max_amount"] is None else float(row["max_amount"]),
             category=CashFlowCategory.parse(row["category"], float(row["amount"])),
+            is_estimate=bool(row["is_estimate"]),
         )
 
     def _ledger(self, row: sqlite3.Row) -> LedgerEntry:
