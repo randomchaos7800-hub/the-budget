@@ -23,6 +23,7 @@ class Frequency(str, Enum):
     MONTHLY = "monthly"
     LAST_DAY_OF_MONTH = "lastDayOfMonth"
     YEARLY = "yearly"
+    SEMIANNUAL = "semiAnnual"
 
     @property
     def label(self) -> str:
@@ -34,6 +35,7 @@ class Frequency(str, Enum):
             Frequency.MONTHLY: "Monthly",
             Frequency.LAST_DAY_OF_MONTH: "Last Day of Month",
             Frequency.YEARLY: "Yearly",
+            Frequency.SEMIANNUAL: "Every 6 Months",
         }[self]
 
     @classmethod
@@ -64,6 +66,10 @@ class Frequency(str, Enum):
             "yearly": cls.YEARLY,
             "annual": cls.YEARLY,
             "annually": cls.YEARLY,
+            "semiannual": cls.SEMIANNUAL,
+            "semi-annual": cls.SEMIANNUAL,
+            "every 6 months": cls.SEMIANNUAL,
+            "twice a year": cls.SEMIANNUAL,
         }
         key = raw.lower()
         if key in aliases:
@@ -355,6 +361,8 @@ class RecurrenceEngine:
             return check.day == last_day_of_month(check)
         if freq is Frequency.YEARLY:
             return self._is_yearly(check, template.anchor_date)
+        if freq is Frequency.SEMIANNUAL:
+            return self._is_semiannual(check, template.anchor_date)
         return False
 
     def _is_monthly(self, check: date, anchor: date) -> bool:
@@ -367,6 +375,14 @@ class RecurrenceEngine:
             return False
         last = last_day_of_month(check)
         return check.day == last and anchor_day > last
+
+    def _is_semiannual(self, check: date, anchor: date) -> bool:
+        months = (check.year - anchor.year) * 12 + check.month - anchor.month
+        if months < 0 or months % 6 != 0:
+            return False
+        if check.day == anchor.day:
+            return True
+        return self._month_end_edge(check, anchor.day)
 
     def _is_yearly(self, check: date, anchor: date) -> bool:
         if anchor.month == 2 and anchor.day == 29:

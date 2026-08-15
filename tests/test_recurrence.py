@@ -77,6 +77,13 @@ class RecurrenceTests(unittest.TestCase):
         self.assertTrue(self.engine.is_scheduled(date(2028, 2, 29), t))
         self.assertFalse(self.engine.is_scheduled(date(2025, 2, 27), t))
 
+    def test_semiannual(self):
+        t = self.tmpl(Frequency.SEMIANNUAL, date(2026, 6, 29))
+        self.assertTrue(self.engine.is_scheduled(date(2026, 6, 29), t))
+        self.assertTrue(self.engine.is_scheduled(date(2026, 12, 29), t))
+        self.assertTrue(self.engine.is_scheduled(date(2027, 6, 29), t))
+        self.assertFalse(self.engine.is_scheduled(date(2027, 1, 29), t))
+
     def test_does_not_fire_before_anchor(self):
         t = self.tmpl(Frequency.MONTHLY, date(2024, 1, 15))
         self.assertFalse(self.engine.is_scheduled(date(2024, 1, 14), t))
