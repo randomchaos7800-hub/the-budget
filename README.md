@@ -1,8 +1,8 @@
-# What If Wallet (web)
+# the budget
 
-Fork of the [What If Wallet](https://github.com/randomchaos7800-hub/whatifwallet) iOS engine. Same deterministic math. Web surface. Automation first.
+Local constraint engine. Tells you what you can spend today.
 
-The phone app's engine is solid. Friction was the surface: manual balance, manual templates, too many tabs. This fork keeps `ProjectionEngine` / `RecurrenceEngine` / skip semantics and makes **Spendable Today** the product.
+The math is a port of the [What If Wallet](https://github.com/randomchaos7800-hub/whatifwallet) iOS engine. WIW stays the phone app. This is the web product.
 
 > If your nut is $2,000 and you have $1,400, what can you spend today — and what cascades if you skip a bill?
 
@@ -22,8 +22,8 @@ No bank logins. No cloud. SQLite file on disk.
 ## Run
 
 ```bash
-cd ~/repos/whatifwallet-web
-python3 -m whatifwallet serve
+cd ~/repos/the-budget
+python3 -m budget serve
 # http://127.0.0.1:8787
 ```
 
@@ -31,17 +31,17 @@ Load the demo household from the Import tab, or paste a bank CSV.
 
 ```bash
 python3 -m unittest discover -s tests -v
-python3 -m whatifwallet demo
-python3 -m whatifwallet nightly
+python3 -m budget demo
+python3 -m budget nightly
 ```
 
 Cron (automation):
 
 ```
-15 5 * * * cd /home/dino/repos/whatifwallet-web && /usr/bin/python3 -m whatifwallet nightly >> /home/dino/repos/whatifwallet-web/data/nightly.log 2>&1
+15 5 * * * cd /home/dino/repos/the-budget && /usr/bin/python3 -m budget nightly >> /home/dino/repos/the-budget/data/nightly.log 2>&1
 ```
 
-Env: `WHATIFWALLET_DB`, `WHATIFWALLET_HOST`, `WHATIFWALLET_PORT`.
+Env: `BUDGET_DB`, `BUDGET_HOST`, `BUDGET_PORT`.
 
 ## Architecture
 
@@ -54,7 +54,7 @@ Ledger + Anchor      Reality layer; nightly crystallizes the past
 CSV detect           Proposes templates; user confirms
 ```
 
-Engine port lives in `whatifwallet/engine.py`. Tests in `tests/` are the iOS unit tests translated.
+Engine port lives in `budget/engine.py`. Tests in `tests/` are the WIW unit tests translated.
 
 ## Not this
 
@@ -64,4 +64,4 @@ Engine port lives in `whatifwallet/engine.py`. Tests in `tests/` are the iOS uni
 
 ## License
 
-MIT. Engine origin: Dino Vitale / What If Wallet iOS.
+MIT. Engine origin: WIW iOS. Product name: the budget.

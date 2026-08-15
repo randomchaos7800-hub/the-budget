@@ -3,8 +3,8 @@ import unittest
 from datetime import date
 from pathlib import Path
 
-from whatifwallet.nightly import crystallize, run_nightly
-from whatifwallet.store import Store
+from budget.nightly import crystallize, run_nightly
+from budget.store import Store
 
 
 class NightlyTests(unittest.TestCase):

@@ -13,9 +13,9 @@ from .service import Wallet
 
 ROOT = Path(__file__).resolve().parent.parent
 WEB = ROOT / "web"
-DEFAULT_DB = Path(os.environ.get("WHATIFWALLET_DB", ROOT / "data" / "wallet.db"))
-DEFAULT_HOST = os.environ.get("WHATIFWALLET_HOST", "127.0.0.1")
-DEFAULT_PORT = int(os.environ.get("WHATIFWALLET_PORT", "8787"))
+DEFAULT_DB = Path(os.environ.get("BUDGET_DB", ROOT / "data" / "budget.db"))
+DEFAULT_HOST = os.environ.get("BUDGET_HOST", "127.0.0.1")
+DEFAULT_PORT = int(os.environ.get("BUDGET_PORT", "8787"))
 
 
 class Handler(SimpleHTTPRequestHandler):
@@ -26,7 +26,7 @@ class Handler(SimpleHTTPRequestHandler):
 
     def log_message(self, fmt: str, *args) -> None:
         sys_stderr = __import__("sys").stderr
-        print(f"[wallet] {self.address_string()} {fmt % args}", file=sys_stderr)
+        print(f"[budget] {self.address_string()} {fmt % args}", file=sys_stderr)
 
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
@@ -142,7 +142,7 @@ class Handler(SimpleHTTPRequestHandler):
 def serve(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT, db: Path = DEFAULT_DB) -> None:
     Handler.wallet = Wallet(db)
     server = ThreadingHTTPServer((host, port), Handler)
-    print(f"What If Wallet → http://{host}:{port}  db={db}")
+    print(f"the budget → http://{host}:{port}  db={db}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
@@ -153,7 +153,7 @@ def serve(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT, db: Path = DEFAULT
 def main() -> None:
     import argparse
 
-    parser = argparse.ArgumentParser(description="What If Wallet web")
+    parser = argparse.ArgumentParser(description="the budget")
     parser.add_argument("--host", default=DEFAULT_HOST)
     parser.add_argument("--port", type=int, default=DEFAULT_PORT)
     parser.add_argument("--db", default=str(DEFAULT_DB))

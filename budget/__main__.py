@@ -1,4 +1,4 @@
-"""python3 -m whatifwallet [serve|nightly|demo]"""
+"""python3 -m budget [serve|nightly|demo]"""
 
 from __future__ import annotations
 
@@ -12,13 +12,13 @@ from .service import Wallet
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(prog="whatifwallet")
-    parser.add_argument("--db", default=os.environ.get("WHATIFWALLET_DB", str(DEFAULT_DB)))
+    parser = argparse.ArgumentParser(prog="budget")
+    parser.add_argument("--db", default=os.environ.get("BUDGET_DB", str(DEFAULT_DB)))
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     serve_p = sub.add_parser("serve", help="run the local web app")
-    serve_p.add_argument("--host", default=os.environ.get("WHATIFWALLET_HOST", "127.0.0.1"))
-    serve_p.add_argument("--port", type=int, default=int(os.environ.get("WHATIFWALLET_PORT", "8787")))
+    serve_p.add_argument("--host", default=os.environ.get("BUDGET_HOST", "127.0.0.1"))
+    serve_p.add_argument("--port", type=int, default=int(os.environ.get("BUDGET_PORT", "8787")))
 
     sub.add_parser("nightly", help="crystallize ledger + emit alerts")
     sub.add_parser("demo", help="load the demo household")

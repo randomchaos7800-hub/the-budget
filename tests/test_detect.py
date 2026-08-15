@@ -1,9 +1,9 @@
 import unittest
 from datetime import date, timedelta
 
-from whatifwallet.csv_import import parse_csv
-from whatifwallet.detect import detect_recurrences
-from whatifwallet.engine import Frequency
+from budget.csv_import import parse_csv
+from budget.detect import detect_recurrences
+from budget.engine import Frequency
 
 
 class DetectTests(unittest.TestCase):

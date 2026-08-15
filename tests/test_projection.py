@@ -2,7 +2,7 @@ import unittest
 from datetime import date
 from uuid import uuid4
 
-from whatifwallet.engine import (
+from budget.engine import (
     DateRange,
     Frequency,
     ModelAssumptions,

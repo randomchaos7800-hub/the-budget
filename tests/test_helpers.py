@@ -2,7 +2,7 @@ import unittest
 from datetime import date
 from uuid import uuid4
 
-from whatifwallet.engine import (
+from budget.engine import (
     DailySnapshot,
     Frequency,
     ProjectionOutput,
@@ -19,7 +19,7 @@ from whatifwallet.engine import (
     ProjectionHealthKind,
     TrendDirection,
 )
-from whatifwallet.engine import ModelAssumptions
+from budget.engine import ModelAssumptions
 
 
 def snaps(*pairs):

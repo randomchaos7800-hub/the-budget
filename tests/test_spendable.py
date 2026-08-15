@@ -2,9 +2,9 @@ import unittest
 from datetime import date
 from uuid import uuid4
 
-from whatifwallet.engine import Frequency, ModelAssumptions, TemplateSnapshot
-from whatifwallet.scenarios import get_scenario, overlay
-from whatifwallet.spendable import spendable_today
+from budget.engine import Frequency, ModelAssumptions, TemplateSnapshot
+from budget.scenarios import get_scenario, overlay
+from budget.spendable import spendable_today
 
 
 class SpendableTests(unittest.TestCase):

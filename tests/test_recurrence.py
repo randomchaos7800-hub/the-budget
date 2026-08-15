@@ -2,7 +2,7 @@ import unittest
 from datetime import date
 from uuid import uuid4
 
-from whatifwallet.engine import Frequency, RecurrenceEngine, TemplateSnapshot
+from budget.engine import Frequency, RecurrenceEngine, TemplateSnapshot
 
 
 class RecurrenceTests(unittest.TestCase):
